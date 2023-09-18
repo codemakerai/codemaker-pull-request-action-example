@@ -38,12 +38,12 @@ public class PaymentDao {
    *
    * @return payment the payment or null
    */
-    public Payment get(String id) {
+    public void delete(Payment payment) {
         try {
-            return session.get(Payment.class, id);
+            session.delete(payment);
         } catch (HibernateException e) {
-            logger.error("Error occurred while retrieving Payment with id {}: {}", id, e.getMessage());
-            throw new RuntimeException("Error occurred while retrieving Payment with id " + id, e);
+            logger.error("Error occurred while deleting Payment with id {}: {}", payment.getId(), e.getMessage());
+            throw new RuntimeException("Error occurred while deleting Payment with id " + payment.getId(), e);
         }
     }
 
