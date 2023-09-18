@@ -30,8 +30,14 @@ public class PaymentDao {
    *
    * @return payment the payment or null
    */
-  public Payment get(String id) {
-  }
+    public Payment get(String id) {
+        try {
+            return session.get(Payment.class, id);
+        } catch (HibernateException e) {
+            logger.error("Error occurred while retrieving Payment with id {}: {}", id, e.getMessage());
+            throw new RuntimeException("Error occurred while retrieving Payment with id " + id, e);
+        }
+    }
 
   /**
    * Deletes the payment from the database.
