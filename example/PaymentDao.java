@@ -14,14 +14,14 @@ public class PaymentDao {
    * @param payment payment to save
    * @throws IllegalArgumentException if payment is null
    */
-    public void save(Payment payment) {
+    public void update(Payment payment) {
         try {
             Transaction transaction = session.beginTransaction();
-            session.save(payment);
+            session.update(payment);
             transaction.commit();
-            logger.info("Payment saved successfully");
+            logger.info("Payment updated successfully");
         } catch (Exception e) {
-            logger.error("Failed to save payment: " + e.getMessage());
+            logger.error("Failed to update payment: " + e.getMessage());
         }
     }
 
