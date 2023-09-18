@@ -15,6 +15,16 @@ public class PaymentDao {
      * @throws IllegalArgumentException if payment is null
      */
     public void save(Payment payment) {
+        try {
+            session.beginTransaction();
+            session.save(payment);
+            session.getTransaction().commit();
+            logger.info("Payment saved successfully");
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            logger.error("Failed to save payment", e);
+            throw new RuntimeException("Failed to save payment", e);
+        }
     }
 
     /**
