@@ -9,6 +9,10 @@ public class PaymentDao {
   }
 
     public void save(Payment payment) {
+        if(payment == null) {
+            throw new IllegalArgumentException("Payment cannot be null");
+        }
+        
         try {
             session.beginTransaction();
             session.save(payment);
