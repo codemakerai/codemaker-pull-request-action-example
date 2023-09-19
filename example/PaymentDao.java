@@ -8,8 +8,17 @@ public class PaymentDao {
       this.session = session;
   }
 
-  public void save(Payment payment) {
-  }
+    public void save(Payment payment) {
+        try {
+            session.beginTransaction();
+            session.save(payment);
+            session.getTransaction().commit();
+            logger.info("Payment saved successfully.");
+        } catch (Exception e) {
+            logger.error("Failed to save payment: " + e.getMessage());
+            session.getTransaction().rollback();
+        }
+    }
 
   public void update(Payment payment) {
   }
