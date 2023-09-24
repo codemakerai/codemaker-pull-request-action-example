@@ -1,15 +1,8 @@
 name: Auto update PR based on comment
 
 on:
-  pull_request_review_comment:
-    types: [created]
-
-env:
-  HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
-  COMMENT_FILE_PATH: ${{ github.event.comment.path }}
-  COMMENT_BODY: ${{ github.event.comment.body }}
-  COMMENT_LINE: ${{ github.event.comment.line }}
-  COMMENT_START_LINE: ${{ github.event.comment.start_line }}
+  pull_request_review:
+    types: [submitted]
 
 concurrency:
   group: ${{ github.workflow }} - ${{ github.event.pull_request.head.ref }}
@@ -23,14 +16,7 @@ jobs:
         with:
           ref: ${{ env.HEAD_BRANCH }}
       - name: Code Review Action
-        uses: codemakerai/codemaker-pull-request-action@v1.0.0
+        uses: codemakerai/codemaker-pull-request-action@next-version
         with:
           access-token: ${{ secrets.GITHUB_TOKEN }}
           api-key: ${{ secrets.CODEMAKER_API_KEY }}
-          comment-file-path: ${{ env.COMMENT_FILE_PATH }}
-          comment-body: ${{ env.COMMENT_BODY }}
-          comment-line: ${{ env.COMMENT_LINE }}
-          comment-start-line: ${{ env.COMMENT_START_LINE }}
-          owner: codemakerai
-          repository: codemaker-pull-request-action-example
-          branch: ${{ env.HEAD_BRANCH}}
