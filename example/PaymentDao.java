@@ -11,6 +11,7 @@ public class PaymentDao {
     /**
      * Saves payment in the database.
      * @param payment the payment to save
+     * @throws IllegalArgumentException if payment is null
      */
     public void save(Payment payment) {
 
