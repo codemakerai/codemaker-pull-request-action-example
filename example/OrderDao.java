@@ -35,11 +35,17 @@ public class OrderDao {
      */
     public void save(Order order) {
         checkNotNull(order, "Order cannot be null");
-
+        
+        Transaction transaction = null;
         try {
+            transaction = session.beginTransaction();
             session.save(order);
+            transaction.commit();
             logger.info("Order saved successfully");
         } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             logger.error("Error occurred while saving order", e);
             throw e;
         }

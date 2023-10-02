@@ -13,9 +13,21 @@ public class PaymentDao {
      *
      * @param payment the {@link Payment} to save
      * @throws HibernateException if an error occurs while saving the payment
+     * @throws IllegalArgumentException if payment is null
      */
     public void save(Payment payment) {
-
+        if (payment == null) {
+            throw new IllegalArgumentException("Payment cannot be null");
+        }
+        
+        try {
+            Transaction transaction = session.beginTransaction();
+            session.save(payment);
+            transaction.commit();
+            logger.info("Payment saved successfully");
+        } catch (Exception e) {
+            logger.error("Error occurred while saving payment: " + e.getMessage());
+        }
     }
 
     /**
@@ -25,6 +37,14 @@ public class PaymentDao {
      * @throws HibernateException If an error occurs while updating the payment.
      */
     public void update(Payment payment) {
+        try {
+            Transaction transaction = session.beginTransaction();
+            session.update(payment);
+            transaction.commit();
+            logger.info("Payment updated successfully");
+        } catch (Exception e) {
+            logger.error("Error occurred while updating payment: " + e.getMessage());
+        }
     }
 
     /**
